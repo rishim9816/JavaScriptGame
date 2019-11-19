@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hiring for JS developers</title>
+	<script type="text/javascript">
+		function generate()
+		{
+			var num = Math.random()*1000000;
+			num = Math.round(num);
+			localStorage.setItem("RandVal",num);
+			document.getElementById("num").innerHTML = localStorage.getItem("RandVal");
+			document.getElementById("ref").innerHTML = "Refreshing the page in 5 seconds...";
+			setTimeout(function(){
+				if($('#1').css("display","block"))
+				{
+					$('#1').css("display","none");
+					$('#2').css("display","block");
+				}
+			}, 5000);
+		}
+		function check()
+		{
+			var chk = document.forms["form"]["valchk"].value;
+			if(chk=="")
+				alert("Enter a number");
+			else if(chk.length!=6)
+				alert("Enter a six digit number");
+			else
+			{
+				var temp = localStorage.getItem("RandVal");
+				var count=0;
+				for(i=0;i<6;i++)
+				{
+					if(temp[i]==chk[i])
+						count++;
+				}
+				if (count==6)
+					document.getElementById("res").innerHTML = " Correct Guess";
+				else if(count==0 || count==1)
+					document.getElementById("res").innerHTML = count+" correct guess";
+				else
+					document.getElementById("res").innerHTML = count+" correct guesses";
+			}
+			var $form = $('form');
+   			$form.submit(function(){
+      			$.post($(this).attr('action'), $(this).serialize(), function(response){
+            	// Nothing to be printed on success. Left blank intentionally.
+      			},'json');
+      			return false;
+  			});
+		}
+		function makeChange()
+  		{
+  			window.location.reload(true);
+  		}
+	</script>
+</head>
+<body>
+	<div id="1">
+		<h1>Generate The Number</h1>
+		<div id="num"></div><br>
+		<button onclick="generate()">Generate</button><br>
+		<h3 id="ref"></h3>
+	</div>
+	<div id="2" style="display: none;">
+		<h1>Guess The Number</h1>
+		<form name="form" method="post">
+			<input type="number" name="valchk"><br><br>
+			<input type="submit" value="Guess" onclick="check()">
+			<input type="submit" value="Replay Game" onclick="makeChange()"><br><br>
+			<div id="res"></div>
+		</form>
+	</div>
+<script
+  src="http://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+</body>
+</html>
